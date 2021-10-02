@@ -1,0 +1,14 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "API part vending machine",
+  "main": "src/app.js",
+  "author": "ARP",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.8"
+  }
+}

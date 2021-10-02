@@ -1,0 +1,20 @@
+{
+	"defaultWalletAmount" : 100,
+	"defaultItems": [
+		{
+			"itemName": "Coke",
+			"stock": 10,
+			"pricePerItem": 30
+		},
+		{
+			"itemName": "Pepsi",
+			"stock": 10,
+			"pricePerItem": 25
+		},
+		{
+			"itemName": "Dew",
+			"stock": 10,
+			"pricePerItem": 30
+		}
+	]
+}
