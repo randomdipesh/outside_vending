@@ -7,6 +7,7 @@ const {
 	invalidCashAmountEntered,
 	inSufficentCash,
 	machineIsOutOfChanges,
+	itemIsOutOfStock,
 } = require("../constants/purchase");
 const { getOneAvailableItems } = require("../services/AvailableItems");
 const { getOneWallet } = require("../services/MachineWallet");
@@ -30,14 +31,14 @@ exports.PurchaseValidation = async ({
 	}
 
 	//if amount of item to purchase is invalid
-	else if (isNaN(amountToPurchase)) {
+	else if (isNaN(amountToPurchase) || amountToPurchase < 1) {
 		return {
 			type: errorResponse,
 			msg: invalidAmountToPurchase,
 		};
 	}
 	//if amount of cash entered  is invalid
-	else if (isNaN(cashEntered)) {
+	else if (isNaN(cashEntered) || cashEntered < 1) {
 		return {
 			type: errorResponse,
 			msg: invalidCashAmountEntered,
@@ -46,7 +47,7 @@ exports.PurchaseValidation = async ({
 	// all good on bad datas
 	else {
 		//check details about the item
-		let itemDetail = getOneAvailableItems(
+		let itemDetail = await getOneAvailableItems(
 			{ itemName },
 			"stock pricePerItem"
 		);
@@ -72,7 +73,13 @@ exports.PurchaseValidation = async ({
 			let totalAmountToCharge = purchasingItemAmount * pricePerItem;
 			//check if amount entered by user is greater than that or not
 			//if user entered lower amount, cannot proceed
-			if (totalAmountToCharge < cashEntered) {
+			if (purchasingItemAmount < 1) {
+				return {
+					type: errorResponse,
+					msg: itemIsOutOfStock,
+				};
+			}
+			if (totalAmountToCharge > cashEntered) {
 				return {
 					type: errorResponse,
 					msg: inSufficentCash,

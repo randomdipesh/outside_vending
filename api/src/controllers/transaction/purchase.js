@@ -9,57 +9,65 @@ const {
 const { nanoid } = require("nanoid");
 exports.Purchase = async (req, res) => {
 	let { itemName, amountToPurchase, cashEntered } = req.body;
-	let validatePurchase = await PurchaseValidation({
-		itemName,
-		amountToPurchase,
-		cashEntered,
-	});
-	if (validatePurchase.type === errorResponse) {
-		res.json(validatePurchase);
-	} else {
-		//everything has been validated well
-		//proceed with purchase
-		let {
-			data: {
-				itemName,
-				purchasingItemAmount,
-				totalAmountToCharge,
-				returnAmount,
-			},
-		} = validatePurchase;
-		//save purchase
-		let purchaseToken = nanoid(5);
-		await savePurchase({
+	try {
+		let validatePurchase = await PurchaseValidation({
 			itemName,
-			purchaseToken,
-			itemsPurchased: purchasingItemAmount,
-			totalAmount: totalAmountToCharge,
+			amountToPurchase,
+			cashEntered,
 		});
-		//amount to keep on wallet
-		//deduct return change and keep rest
-		let amountToKeepOnWallet = purchasingItemAmount - returnAmount;
-		await updateMachineWallet(
-			{},
-			{ $inc: { amount: amountToKeepOnWallet } }
-		);
-		//deduct stock too
-		await updateAvailableItem(
-			{ itemName },
-			{ $inc: { stock: -purchasingItemAmount } }
-		);
+		if (validatePurchase.type === errorResponse) {
+			res.json(validatePurchase);
+		} else {
+			//everything has been validated well
+			//proceed with purchase
+			let {
+				data: {
+					itemName,
+					purchasingItemAmount,
+					totalAmountToCharge,
+					returnAmount,
+				},
+			} = validatePurchase;
+			//save purchase
+			let purchaseToken = nanoid(5);
+			await savePurchase({
+				itemName,
+				purchaseToken,
+				itemsPurchased: purchasingItemAmount,
+				totalAmount: totalAmountToCharge,
+			});
+			//amount to keep on wallet
+			//deduct return change and keep rest
+			let amountToKeepOnWallet = totalAmountToCharge - returnAmount;
+			await updateMachineWallet(
+				{},
+				{ $inc: { amount: amountToKeepOnWallet } }
+			);
+			//deduct stock too
+			await updateAvailableItem(
+				{ itemName },
+				{ $inc: { stock: -purchasingItemAmount } }
+			);
+			res.json({
+				type: successReponse,
+				data: {
+					returnAmount,
+					amountPurchased: purchasingItemAmount,
+					amountCharged: totalAmountToCharge,
+					purchaseToken
+				},
+			});
+		}
+	} catch (e) {
 		res.json({
-			type: successReponse,
-			data: {
-				returnAmount,
-				amountPurchased: purchasingItemAmount,
-				amountCharged: totalAmountToCharge,
-			},
+			type: errorResponse,
+			msg: e.message,
 		});
 	}
 };
 
 exports.Refund = async (req, res) => {
-	let { purchaseToken } = req.body;
+	let { purchaseToken } = req.params;
 	let validateRefund = await RefundValidation({ purchaseToken });
 	if (validateRefund.type === errorResponse) {
 		res.json(validateRefund);
@@ -73,14 +81,14 @@ exports.Refund = async (req, res) => {
 			{ $inc: { stock: itemsPurchased } }
 		);
 		//decrease wallet
-		await updateMachineWallet({}, { $set: { amount: -totalAmount } });
+		await updateMachineWallet({}, { $inc: { amount: -totalAmount } });
 		//update the purchase and marked it as refunded, so no double refund
 		await updateOnePurchase(
 			{ purchaseToken },
 			{ $set: { isRefunded: true } }
 		);
-        res.json({
-            type : successReponse
-        })
+		res.json({
+			type: successReponse,
+		});
 	}
 };
