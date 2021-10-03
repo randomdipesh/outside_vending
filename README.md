@@ -19,7 +19,7 @@ Used basic css for styling.
 2. Frontend is built.
 3. API is integrated on Frontend
 
-# Explanationsa
+# Explanations
 
 1. A json file for default data is created
 
@@ -36,3 +36,5 @@ Used basic css for styling.
 7. Testing of API routes is done manually on postman as I don't have  experience on writing tests.
 
 8. Deployed on heroku for testing. (MongoDB cloud is used for database on deployment)
+
+Deployed on https://github.com/randomdipesh/outside_vending
