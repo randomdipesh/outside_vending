@@ -1,5 +1,5 @@
 exports.isEmpty = (val) => {
-	val = String(val)
+	val = String(val);
 	if (
 		!val ||
 		val === "" ||

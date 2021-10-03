@@ -47,7 +47,7 @@ const Index = () => {
 			!isNaN(amountToPurchase) &&
 			!isNaN(cashEntered)
 		) {
-            setPurchasing(true)
+			setPurchasing(true);
 			try {
 				let response = await purchaseService({
 					itemName: itemSelected,
@@ -85,12 +85,12 @@ const Index = () => {
 					setItemSelected("");
 					setAmountToPurchase("");
 					setCashEntered("");
-                    Init()
+					Init();
 				}
 			} catch (e) {
 				Swal.fire("Error", e.msg, "error");
 			}
-            setPurchasing(false)
+			setPurchasing(false);
 		}
 	};
 	useEffect(() => {

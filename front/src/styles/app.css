@@ -1,44 +1,43 @@
-.card{
-    border: 1px solid #eee;
-    padding: 10px;
+.card {
+	border: 1px solid #eee;
+	padding: 10px;
 }
 
-.container{
-    margin-left: 10%;
-    margin-right: 10%;
+.container {
+	margin-left: 10%;
+	margin-right: 10%;
 }
 
-.text-center{
-    text-align: center;
+.text-center {
+	text-align: center;
 }
 
-.float-right{
-    float: right;
+.float-right {
+	float: right;
 }
 
-.title-text{
-    font-weight: bold;
-    font-size: 25px;
+.title-text {
+	font-weight: bold;
+	font-size: 25px;
 }
 
-.grid{
-    display: grid;
-    grid-column-gap: 10%;
+.grid {
+	display: grid;
+	grid-column-gap: 10%;
 }
-.grid-3{
-    grid-template-columns: auto auto auto;
-}
-
-
-.is-clickable{
-    cursor: pointer;
-}
-.is-active{
-    border: 2px solid green;
+.grid-3 {
+	grid-template-columns: auto auto auto;
 }
 
-input{
-    padding: 5px;
-    width: 20%;
-    margin-top: 5px;
+.is-clickable {
+	cursor: pointer;
+}
+.is-active {
+	border: 2px solid green;
+}
+
+input {
+	padding: 5px;
+	width: 20%;
+	margin-top: 5px;
 }

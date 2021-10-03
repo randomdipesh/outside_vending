@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "4af4f6b8-9147-4676-94c0-c15728d40c14",
+		"name": "Outside Vending",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Setup or reset app",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{apiUrl}}/setup/setup_reset",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"setup",
+						"setup_reset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get items data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{apiUrl}}/data/items",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"data",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Purchase Item",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "itemName",
+							"value": "Coke",
+							"type": "text"
+						},
+						{
+							"key": "amountToPurchase",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "cashEntered",
+							"value": "30",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{apiUrl}}/transaction/purchase",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"transaction",
+						"purchase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refund Purchase",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{apiUrl}}/transaction/refund/4XaUt",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"transaction",
+						"refund",
+						"4XaUt"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "apiUrl",
+			"value": "localhost:5000/api"
+		}
+	]
+}
